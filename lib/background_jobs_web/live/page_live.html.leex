@@ -2,10 +2,21 @@
   <h2>Background Jobs</h2>
   <div class="row">
     <div class="column">
+      Jobs in queue: <%= @in_queue %>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="column">
       <button phx-click="perform">perform</button>
     </div>
     <div class="column">
       <button phx-click="perform_async">perform_async</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="column">
+      <button phx-click="perform_async_10">perform_async 10 jobs</button>
     </div>
     <div class="column">
       <button phx-click="perform_in_5">perform_in 5 seconds</button>
@@ -19,15 +30,17 @@
     <table>
       <thead>
         <tr>
+          <th>Queue Time</th>
           <th>Start Time</th>
-          <th>Time Elapsed</th>
+          <th>Event Type</th>
         </tr>
       </thead>
       <tbody>
       <%= for event <- @events do %>
         <tr>
+          <td><%= event.queue_time %></td>
           <td><%= event.start_time %></td>
-          <td><%= event.time_elapsed %></td>
+          <td><%= event.event_type %></td>
         </tr>
       <% end %>
     </table>

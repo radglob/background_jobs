@@ -1,10 +1,8 @@
 defmodule ExampleJob do
   use BackgroundJob
 
-  def perform(_opts \\ []) do
+  def perform(queue_time: queue_time, event_type: event_type) do
     start_time = Time.utc_now()
-    sleep_time = round(:random.uniform() * 1000)
-    Process.sleep(sleep_time)
 
     Phoenix.PubSub.broadcast(
       BackgroundJobs.PubSub,
@@ -12,8 +10,9 @@ defmodule ExampleJob do
       %{
         topic: "events",
         payload: %{
+          queue_time: queue_time,
           start_time: start_time,
-          time_elapsed: sleep_time
+          event_type: event_type
         }
       }
     )

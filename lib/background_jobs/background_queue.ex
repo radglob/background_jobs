@@ -7,8 +7,6 @@ defmodule BackgroundQueue do
 
   @impl true
   def init(_) do
-    # This table isn't structurally important — I just use it to demonstrate
-    # effects.
     send(self(), :pop)
     {:ok, []}
   end
@@ -16,6 +14,7 @@ defmodule BackgroundQueue do
   @impl true
   def handle_call({:push, opts}, _from, jobs) do
     jobs = jobs ++ [opts]
+    Phoenix.PubSub.broadcast(BackgroundJobs.PubSub, "events", %{topic: "events", queued: 1})
     {:reply, Enum.count(jobs), jobs}
   end
 
@@ -35,6 +34,7 @@ defmodule BackgroundQueue do
         case task.perform(opts) do
           :ok ->
             Process.send_after(self(), :pop, 100)
+            Phoenix.PubSub.broadcast(BackgroundJobs.PubSub, "events", %{topic: "events", dequeued: 1})
             {:noreply, rest}
 
           {:error, message} ->

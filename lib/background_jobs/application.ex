@@ -7,8 +7,6 @@ defmodule BackgroundJobs.Application do
 
   def start(_type, _args) do
     children = [
-      # Start the Ecto repository
-      BackgroundJobs.Repo,
       # Start the Telemetry supervisor
       BackgroundJobsWeb.Telemetry,
       # Start the PubSub system
