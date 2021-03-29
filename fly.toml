@@ -1,6 +1,6 @@
-# fly.toml file generated for purple-mountain-5662 on 2021-03-28T19:12:32-04:00
+# fly.toml file generated for muddy-night-8257 on 2021-03-29T10:30:36-04:00
 
-app = "purple-mountain-5662"
+app = "muddy-night-8257"
 
 kill_signal = "SIGINT"
 kill_timeout = 5
@@ -10,10 +10,10 @@ kill_timeout = 5
   buildpacks = ["https://cnb-shim.herokuapp.com/v1/hashnuke/elixir"]
 
 [env]
-  PORT = "8080"
+  PORT = "4000"
 
 [[services]]
-  internal_port = 8080
+  internal_port = 4000
   protocol = "tcp"
 
   [services.concurrency]
@@ -29,7 +29,7 @@ kill_timeout = 5
     port = "443"
 
   [[services.tcp_checks]]
-    grace_period = "1s"
+    grace_period = "60s"
     interval = "15s"
     port = "8080"
     restart_limit = 6
